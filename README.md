@@ -1,6 +1,13 @@
 # PrinterLabs
 A laboratory software printer 
 
+## XPROJECT
+1. bluetoothprinter -> Bluetooth printer example 
+2. app -> the example to blueetoth internet example
+3. creditcardpayment -> Example of payment with creditcard
+4. thermalprinter -> COME'S custom example 
+
+
 ###ESC POS MANUALS
 
 https://www.sparkfun.com/datasheets/Components/General/Driver%20board.pdf
