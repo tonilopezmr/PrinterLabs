@@ -1,8 +1,7 @@
 package com.tonilopezmr.thermalprinter.printerlib;
 
 class PrinterJobImpl implements IPrinterJob {
-    private static final String ESC = "ESC";
-    private static final String INITIALIZE = ESC + " @";
+
 
     private IPrinter printer;
 
@@ -11,9 +10,7 @@ class PrinterJobImpl implements IPrinterJob {
     }
 
     @Override
-    public void initializePrinter() {
-        printer.write(INITIALIZE);
-    }
+    public void initializePrinter() { }
 
     @Override
     public void printLine(String line) {
