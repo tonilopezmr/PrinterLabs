@@ -47,6 +47,11 @@ public class PrinterBluetooth implements IPrinter {
   }
 
   @Override
+  public void setAlignment(PrinterCommands.Align alignment) throws PrinterException {
+    write(alignment.value);
+  }
+
+  @Override
   public void initialize() throws PrinterException{
     write(PrinterCommands.INITIALIZE);
   }

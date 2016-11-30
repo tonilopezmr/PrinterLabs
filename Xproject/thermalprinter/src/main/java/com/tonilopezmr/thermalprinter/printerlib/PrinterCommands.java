@@ -6,9 +6,16 @@ public class PrinterCommands {
 
   public static final byte ALIGN = (byte)'a';
 
-  public static final byte[] ALIGNMENT_LEFT = {ESC, ALIGN, 0x00};
-  public static final byte[] ALIGNMENT_CENTER = {ESC, ALIGN, 0x01};
-  public static final byte[] ALIGNMENT_RIGHT = {ESC, ALIGN, 0x02};
+  enum Align {
+    ALIGNMENT_LEFT(new byte[]{ESC, ALIGN, 0x00}),
+    ALIGNMENT_CENTER(new byte[]{ESC, ALIGN, 0x01}),
+    ALIGNMENT_RIGHT(new byte[]{ESC, ALIGN, 0x02});
 
-  
+    byte[] value;
+
+    Align(byte[] value) {
+      this.value = value;
+    }
+  }
+
 }
