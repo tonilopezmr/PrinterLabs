@@ -21,8 +21,10 @@ public class PrinterBluetooth implements IPrinter {
     //We assume the printer was the most recent connection
     BluetoothDevice printer = bAdapter.getBondedDevices().iterator().next();
     if(printer != null) {
+      System.out.println("Conexion establecida");
       bluetoothService.connect(printer);
-      initialize();
+      //initialize();
+      System.out.println(bluetoothService.getState() == BluetoothService.STATE_CONNECTED);
     }
     else {
       throw new PrinterException("NO PAIRED DEVICES FOUND");
@@ -52,7 +54,13 @@ public class PrinterBluetooth implements IPrinter {
   }
 
   @Override
+  public void setFont(PrinterCommands.Font font) throws PrinterException {
+    write(font.value);
+  }
+
+  @Override
   public void initialize() throws PrinterException{
+    System.out.println(bluetoothService.getState() == BluetoothService.STATE_CONNECTED);
     write(PrinterCommands.INITIALIZE);
   }
 }
