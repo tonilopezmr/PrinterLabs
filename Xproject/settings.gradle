@@ -1,1 +1,1 @@
-include ':app', ':thermalprinter', ':bluetoothprinter', ':creditcardpayment', ':printerlib'
+include ':app', ':thermalprinter', ':bluetoothprinter', ':creditcardpayment', ':printerlib', ':printerlib'
