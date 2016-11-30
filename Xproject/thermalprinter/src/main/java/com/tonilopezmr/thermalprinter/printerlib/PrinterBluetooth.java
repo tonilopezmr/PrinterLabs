@@ -36,9 +36,14 @@ public class PrinterBluetooth implements IPrinter {
 
   @Override
   public void write(String line) throws PrinterException {
+    write(line.getBytes());
+  }
+
+  @Override
+  public void write(byte[] data) throws PrinterException {
     if(bluetoothService.getState() != BluetoothService.STATE_CONNECTED)
       throw new PrinterException("NO DEVICE CONNECTED");
-    bluetoothService.write(line.getBytes());
+    bluetoothService.write(data);
   }
 
   @Override
