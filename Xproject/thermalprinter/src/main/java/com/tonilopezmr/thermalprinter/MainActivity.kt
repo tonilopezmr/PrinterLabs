@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun connect() {
         printer.connect(this, mHandler)
-        connected()
 
 //        val intent = Intent(Intent.ACTION_MAIN, null)
 //        intent.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -123,6 +122,7 @@ class MainActivity : AppCompatActivity() {
                     when (msg.arg1) {
                         BluetoothService.STATE_CONNECTED -> {
                             showMessage("Conectado")
+                            connected()
                         }
                         BluetoothService.STATE_CONNECTING -> {
                             showMessage("Connectado")
