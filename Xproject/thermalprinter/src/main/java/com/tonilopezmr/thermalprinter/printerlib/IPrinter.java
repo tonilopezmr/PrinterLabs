@@ -4,12 +4,12 @@ import android.content.Context;
 import android.os.Handler;
 
 public interface IPrinter {
-  public void connect(Context context, Handler messageHandler) throws PrinterException;
-  public void disconnect();
-  public void write(String line) throws PrinterException;
-  public void write(byte[] data) throws PrinterException;
-  public void setAlignment(PrinterCommands.Align alignment) throws PrinterException;
-  public void setFont(PrinterCommands.Font font) throws PrinterException;
+  void connect(Context context, Handler messageHandler) throws PrinterException;
+  void disconnect();
+  void write(String line) throws PrinterException;
+  void write(byte[] data) throws PrinterException;
+  void setAlignment(PrinterCommands.Align alignment) throws PrinterException;
+  void setFont(PrinterCommands.Font font) throws PrinterException;
 
   void initialize() throws PrinterException;
 }
