@@ -10,6 +10,8 @@ import android.widget.Toast
 import com.tonilopezmr.bluetoothprinter.BluetoothService
 import com.tonilopezmr.bluetoothprinter.commands.Command
 import com.tonilopezmr.bluetoothprinter.commands.PrinterCommand
+import com.tonilopezmr.thermalprinter.printerlib.PrinterBluetooth
+import com.tonilopezmr.thermalprinter.printerlib.PrinterCommands
 import kotlinx.android.synthetic.main.activity_main.*
 import zj.com.customize.sdk.Other
 import java.io.UnsupportedEncodingException
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     val MESSAGE_UNABLE_CONNECT = 7
 
     private var bluetoothService: BluetoothService? = null
+    private var printer: PrinterBluetooth = PrinterBluetooth();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,26 +67,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun printKitchenTicket() {
-        sendDataByte(UseCommand.ESC_INIT)
-        sendDataByte(UseCommand.ESC_ALIGN_CENTER)
-        sendDataByte("--------------------------\n\n".toByteArray())
-        sendDataByte(UseCommand.ESC_FONT_B)
-        sendDataByte(UseCommand.ESC_ALIGN)
-        sendDataByte("Numero 50\n".toByteArray(Charset.defaultCharset()))
-        sendDataByte("1x Tortilla de patatas\n".toByteArray(Charset.defaultCharset()))
-        sendDataByte("1x Sandwitch mixto\n".toByteArray(Charset.defaultCharset()))
-        sendDataByte("1x Zumo de naranja\n\n".toByteArray(Charset.defaultCharset()))
+        printer.initialize()
+        printer.setAlignment(PrinterCommands.Align.ALIGNMENT_CENTER)
+        printer.write("--------------------------\n\n")
+        printer.setFont(PrinterCommands.Font.FONT_STYLE_C)
+        printer.write("Numero 50\n\n")
+        printer.setAlignment(PrinterCommands.Align.ALIGNMENT_LEFT)
+        printer.setFont(PrinterCommands.Font.FONT_STYLE_B)
+        printer.write("1x Tortilla de patatas\n")
+        printer.write("1x Sandwitch mixto\n")
+        printer.write("1x Zumo de naranja\n\n")
         sendDataByte(PrinterCommand.POS_Set_PrtAndFeedPaper(50))
-
     }
 
     private fun connect() {
-        bluetoothService = BluetoothService(this, mHandler)
-        val bAdapter = BluetoothAdapter.getDefaultAdapter()
-        bAdapter.bondedDevices.forEachIndexed { i, bluetoothDevice ->
-            if (i == 0) bluetoothService?.connect(bluetoothDevice)
-        }
-        connected()
+        printer.connect(this, mHandler)
 
 //        val intent = Intent(Intent.ACTION_MAIN, null)
 //        intent.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -124,6 +122,7 @@ class MainActivity : AppCompatActivity() {
                     when (msg.arg1) {
                         BluetoothService.STATE_CONNECTED -> {
                             showMessage("Conectado")
+                            connected()
                         }
                         BluetoothService.STATE_CONNECTING -> {
                             showMessage("Connectado")
