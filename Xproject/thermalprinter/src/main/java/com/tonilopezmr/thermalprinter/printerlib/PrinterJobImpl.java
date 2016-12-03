@@ -1,5 +1,4 @@
 package com.tonilopezmr.thermalprinter.printerlib;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class PrinterJobImpl implements IPrinterJob {
