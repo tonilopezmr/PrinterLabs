@@ -1,26 +1,23 @@
 package com.tonilopezmr.thermalprinter.printerlib;
-
-import com.tonilopezmr.bluetoothprinter.commands.PrinterCommand;
-
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class PrinterJobImpl implements IPrinterJob {
-  private IPrinter printer;
-  private String separator = "--------------------------";
-  private String separator_spacing = "" + PrinterCommands.NEW_LINE + PrinterCommands.NEW_LINE;
-  private PrinterCommands.Font font = PrinterCommands.Font.FONT_DEFAULT;
-  private PrinterCommands.Align alignment = PrinterCommands.Align.ALIGNMENT_LEFT;
 
+  private IPrinter printer;
+  private PrintConfig config;
 
   //Implementation following the Builder pattern -> The product is each print
   public PrinterJobImpl(IPrinter printer) {
     this.printer = printer;
+    this.config  = new PrintConfig();
   }
 
   @Override
   public IPrinterJob initializePrinter() throws PrinterJobException {
     try {
       printer.initialize();
+      config = new PrintConfig();
     } catch (PrinterException e) {
       throw new PrinterJobException(e.getMessage());
     }
@@ -30,6 +27,8 @@ public class PrinterJobImpl implements IPrinterJob {
   @Override
   public void printLine(String line) throws PrinterJobException {
     try {
+      printer.setAlignment(config.getAlignment());
+      printer.setFont(config.getFont());
       printer.write(line + PrinterCommands.NEW_LINE);
     } catch (PrinterException e) {
       throw new PrinterJobException(e.getMessage());
@@ -41,19 +40,22 @@ public class PrinterJobImpl implements IPrinterJob {
   @Override
   public void printAllLines(List<String> lines) throws PrinterJobException {
     try {
+      printer.setAlignment(config.getAlignment());
+      printer.setFont(config.getFont());
       for (String line : lines) {
         printer.write(line + PrinterCommands.NEW_LINE);
       }
     } catch (PrinterException e) {
       throw new PrinterJobException(e.getMessage());
     }
+    //After a print we reset the settings
     initializePrinter();
   }
 
   @Override
   public IPrinterJob printSeparator() throws PrinterJobException{
     try {
-      printer.write(separator + separator_spacing);
+      printer.write(config.getSeparator() + config.getSeparator_spacing());
     } catch (PrinterException e) {
       throw new PrinterJobException(e.getMessage());
     }
@@ -62,36 +64,25 @@ public class PrinterJobImpl implements IPrinterJob {
 
   @Override
   public IPrinterJob setSeparator(String separator) {
-    this.separator = separator;
+    config.setSeparator(separator);
     return this;
   }
 
   @Override
   public IPrinterJob setSeparatorSpacing(int spacing) {
-    separator_spacing = "";
-    for(int i = 0; i < spacing; i++) {
-      separator_spacing += + PrinterCommands.NEW_LINE;
-    }
+    config.setSeparator_spacing(spacing);
     return this;
   }
 
   @Override
-  public IPrinterJob setAlignment(PrinterCommands.Align align) throws PrinterJobException {
-    try {
-      printer.setAlignment(align);
-    } catch (PrinterException e) {
-      throw new PrinterJobException(e.getMessage());
-    }
+  public IPrinterJob setAlignment(PrinterCommands.Align align) {
+    config.setAlignment(align);
     return this;
   }
 
   @Override
-  public IPrinterJob setFont(PrinterCommands.Font font) throws PrinterJobException {
-    try {
-      printer.setFont(font);
-    } catch (PrinterException e) {
-      throw new PrinterJobException(e.getMessage());
-    }
+  public IPrinterJob setFont(PrinterCommands.Font font) {
+    config.setFont(font);
     return this;
   }
 
@@ -106,7 +97,12 @@ public class PrinterJobImpl implements IPrinterJob {
   }
 
   @Override
-  public IPrinterJob config() {
+  public IPrinterJob setConfig(PrintConfig config) {
+    this.config = config;
     return this;
+  }
+
+  public PrintConfig getConfig() {
+    return this.config;
   }
 }
