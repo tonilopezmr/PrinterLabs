@@ -59,6 +59,11 @@ public class PrinterBluetooth implements IPrinter {
   }
 
   @Override
+  public void feedPaper(PrinterCommands.FeedPaper feed) throws PrinterException {
+    write(feed.value);
+  }
+
+  @Override
   public void initialize() throws PrinterException{
     System.out.println(bluetoothService.getState() == BluetoothService.STATE_CONNECTED);
     write(PrinterCommands.INITIALIZE);

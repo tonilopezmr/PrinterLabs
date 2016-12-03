@@ -48,4 +48,8 @@ class PrinterJobImpl implements IPrinterJob {
       separator_spacing += '\n';
     }
   }
+
+  public PrinterJobImpl config() {
+    return this;
+  }
 }
