@@ -3,6 +3,7 @@ package com.tonilopezmr.thermalprinter.printerlib;
 public class PrinterCommands {
   public static final byte ESC = 0x1B;
   public static final byte GS = 0x1D;
+  public static final byte NEW_LINE = '\n';
 
   public static final byte[] INITIALIZE = {ESC, '@'};
 

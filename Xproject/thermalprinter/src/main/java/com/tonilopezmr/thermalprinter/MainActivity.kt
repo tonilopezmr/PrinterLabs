@@ -1,7 +1,7 @@
 package com.tonilopezmr.thermalprinter
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
+import com.tonilopezmr.thermalprinter.printerlib.PrinterJobImpl;
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.tonilopezmr.bluetoothprinter.BluetoothService
 import com.tonilopezmr.bluetoothprinter.commands.Command
 import com.tonilopezmr.bluetoothprinter.commands.PrinterCommand
+import com.tonilopezmr.thermalprinter.printerlib.IPrinterJob
 import com.tonilopezmr.thermalprinter.printerlib.PrinterBluetooth
 import com.tonilopezmr.thermalprinter.printerlib.PrinterCommands
 import kotlinx.android.synthetic.main.activity_main.*
@@ -67,7 +68,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun printKitchenTicket() {
-        printer.initialize()
+        var printerJob: PrinterJobImpl = PrinterJobImpl(printer)
+        printerJob .setSeparator("--------------------------")
+                .printSeparator()
+        printerJob.setAlignment(PrinterCommands.Align.ALIGNMENT_CENTER)
+                .setFont(PrinterCommands.Font.FONT_STYLE_C)
+                .printLine("Numero 50")
+        printerJob.setFont(PrinterCommands.Font.FONT_STYLE_B)
+                .printAllLines(mutableListOf<String>(
+                    "1x Tortilla de patatas",
+                    "1x Sandwitch mixto",
+                    "1x Zumo de naranja"
+                ));
+        printerJob.feedPaper(PrinterCommands.FeedPaper.FEED_END)
+
+        /*
         printer.setAlignment(PrinterCommands.Align.ALIGNMENT_CENTER)
         printer.write("--------------------------\n\n")
         printer.setFont(PrinterCommands.Font.FONT_STYLE_C)
@@ -78,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         printer.write("1x Sandwitch mixto\n")
         printer.write("1x Zumo de naranja\n\n")
         sendDataByte(PrinterCommand.POS_Set_PrtAndFeedPaper(50))
+        */
     }
 
     private fun connect() {
