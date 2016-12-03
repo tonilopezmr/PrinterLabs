@@ -6,8 +6,8 @@ public class PrinterCommands {
 
   public static final byte[] INITIALIZE = {ESC, '@'};
 
+
   private static final byte ALIGN = (byte) 'a';
-  private static final byte EXCLM = (byte) '!';
 
   public enum Align {
     ALIGNMENT_LEFT(new byte[]{ESC, ALIGN, 0x00}),
@@ -22,16 +22,31 @@ public class PrinterCommands {
 
   }
 
+  private static final byte EXCLM = (byte) '!';
+
   public enum Font {
     FONT_DEFAULT(new byte[]{GS, EXCLM, 0x00}),
     FONT_STYLE_B(new byte[]{GS, EXCLM, 0x01}),
     FONT_STYLE_C(new byte[]{GS, EXCLM, 0x11});
-    /*FONT_DEFAULT(new byte[]{ESC, EXCLM, 0x00}),
-    FONT_TITLTE(new byte[]{ESC, EXCLM, 0x11}})*/;
 
     byte[] value;
 
     Font(byte[] value) {
+      this.value = value;
+    }
+  }
+
+
+  public static final byte FEED_PAPER = 'J';
+
+  public enum FeedPaper {
+    FEED(new byte[] {ESC, FEED_PAPER, 0x00}), //??? NOT SURE WHAT DOES THIS DO, BUT K
+    FEED_LINE(new byte[] {ESC, FEED_PAPER, 0x10}),
+    FEED_END(new byte[] {ESC, FEED_PAPER, 0x50});
+
+    byte[] value;
+
+    FeedPaper(byte[] value) {
       this.value = value;
     }
   }

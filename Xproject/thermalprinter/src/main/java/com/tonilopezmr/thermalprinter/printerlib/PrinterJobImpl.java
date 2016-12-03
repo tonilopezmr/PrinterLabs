@@ -3,7 +3,7 @@ package com.tonilopezmr.thermalprinter.printerlib;
 class PrinterJobImpl implements IPrinterJob {
   private IPrinter printer;
   private String separator = "--------------------------";
-  private String separator_spacing = "\n\n";
+  private String separator_spacing = "\n\n"
 
   public PrinterJobImpl(IPrinter printer) {
     this.printer = printer;
