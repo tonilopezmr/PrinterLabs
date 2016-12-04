@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.tonilopezmr.bluetoothprinter.BluetoothService
 import com.tonilopezmr.bluetoothprinter.commands.Command
+import com.tonilopezmr.thermalprinter.printerlib.PrintConfig
 
 
 import com.tonilopezmr.thermalprinter.printerlib.PrinterBluetooth
@@ -70,8 +71,7 @@ class MainActivity : AppCompatActivity() {
     private fun printKitchenTicket() {
         var printerJob: PrinterJobImpl = PrinterJobImpl(printer)
 
-        printerJob.setSeparator("--------------------------")
-                .printSeparator()
+        printerJob.printSeparator()
         printerJob.setAlignment(PrinterCommands.Align.ALIGNMENT_CENTER)
                 .setFont(PrinterCommands.Font.FONT_STYLE_C)
                 .printLine("Numero 50")
@@ -81,7 +81,38 @@ class MainActivity : AppCompatActivity() {
                     "1x Sandwitch mixto",
                     "1x Zumo de naranja"
                 ))
+        printerJob.feedPaper(PrinterCommands.FeedPaper.FEED)
+
+
+        printerJob.setSeparator("**********************")
+                .setSeparatorSpacing(5)
+                .printSeparator()
+        printerJob.setAlignment(PrinterCommands.Align.ALIGNMENT_CENTER)
+                .setFont(PrinterCommands.Font.FONT_STYLE_C)
+                .printLine("Numero 51")
+        printerJob.printAllLines(mutableListOf<String>(
+                        "1x Tortilla de patatas",
+                        "1x Sandwitch mixto",
+                        "1x Zumo de naranja"
+                ))
         printerJob.feedPaper(PrinterCommands.FeedPaper.FEED_END)
+
+        printerJob.printSeparator()
+        var titleConfig : PrintConfig = PrintConfig()
+        titleConfig.font = PrinterCommands.Font.FONT_STYLE_C
+        titleConfig.alignment = PrinterCommands.Align.ALIGNMENT_CENTER
+        printerJob.config = titleConfig
+        printerJob.printLine("Numero 52")
+        var orderConfig : PrintConfig = PrintConfig()
+        orderConfig.font = PrinterCommands.Font.FONT_STYLE_B
+        printerJob.setConfig(orderConfig).printAllLines(mutableListOf<String>(
+                "1x Tortilla de patatas",
+                "1x Sandwitch mixto",
+                "1x Zumo de naranja"
+        ))
+        printerJob.feedPaper(PrinterCommands.FeedPaper.FEED_END)
+
+
 
         /*
         printer.setAlignment(PrinterCommands.Align.ALIGNMENT_CENTER)
