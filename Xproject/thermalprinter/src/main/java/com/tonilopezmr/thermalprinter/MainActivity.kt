@@ -1,7 +1,6 @@
 package com.tonilopezmr.thermalprinter
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -15,7 +14,6 @@ import com.tonilopezmr.thermalprinter.printerlib.PrinterCommands
 import kotlinx.android.synthetic.main.activity_main.*
 import zj.com.customize.sdk.Other
 import java.io.UnsupportedEncodingException
-import java.nio.charset.Charset
 
 class MainActivity : AppCompatActivity() {
 
